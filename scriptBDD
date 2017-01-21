@@ -1,0 +1,58 @@
+create table player(
+id int primary key auto_increment,
+name varchar(20) not null unique,
+password varchar(20) not null
+);
+
+create table village(
+id int primary key auto_increment,
+idPlayer int not null
+);
+
+create table slot(
+id int primary key auto_increment,
+idVillage int not null,
+idBatiment int
+);
+
+create table population(
+id int primary key auto_increment,
+idVillage int not null,
+max int not null,
+actual int not null,
+evolution int not null
+);
+
+create table batiment(
+id int primary key auto_increment,
+lvl int not null,
+name varchar(20) not null,
+value int not null,
+prix int not null,
+type varchar(15) not null,
+imageName varchar(35) not null,
+idRessource int not null
+);
+
+create table ressource(
+id int primary key auto_increment,
+name varchar(20) not null
+);
+
+create table reserve(
+id int primary key auto_increment,
+idVillage int not null,
+idRessource int not null,
+stock int not null
+);
+
+
+
+alter table village add constraint FK_VILLAGE_PLAYER foreign key(idPlayer) references player(id);
+alter table population add constraint FK_POPULATION_VILLAGE foreign key(idVillage) references village(id);
+alter table slot add constraint FK_SLOT_VILLAGE foreign key(idVillage) references village(id);
+alter table slot add constraint FK_SLOT_BATIMENT foreign key(idBatiment) references batiment(id);
+alter table reserve add constraint FK_RESERVE_VILLAGE foreign key(idVillage) references village(id);
+alter table reserve add constraint FK_RESERVE_RESSOURCE foreign key(idRessource) references ressource(id);
+alter table batiment add constraint FK_BATIMENT_RESSOURCE foreign key(idRessource) references ressource(id);
+alter table batiment add constraint CHK_BATIMENT CHECK (type='ressource' or type='batiment');

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Incremental</title>
+
+    <!--Css-->
+    <link rel="stylesheet" href="/public/style/style.css">
+    <link rel="stylesheet" href="/public/style/bootstrap.min.css">
+
+</head>
+<body>
+<div class="container">
+
+    <div class="col-xs-12" style="margin-top:300px;margin-left:150px">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalLogin" id="login">Se
+            connecter
+        </button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalRegister" id="register">
+            S'enregistrer
+        </button>
+    </div>
+
+
+    <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Connexion</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formLogin" action="/login.html" method="GET">
+                        <div class="form-group">
+                            <label for="pseudo">Pseudo</label>
+                            <input type="text" class="form-control" id="pseudo" name="pseudo">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password">
+                        </div>
+                        </fieldset>
+                        <button type="submit" for="formLogin" class="btn btn-primary">Se connecter</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Inscription</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="pseudo">Pseudo</label>
+                            <input type="text" class="form-control" id="pseudo">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                        </fieldset>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">S'enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="public/js/bootstrap.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io.connect('http://localhost:8080');
+    socket.on('login_fail', function () {
+        alert("échec d'authentification");
+    });
+    socket.on('login_success', function () {
+        alert("authentification réussie");
+    });
+
+</script>
+</body>
+</html>

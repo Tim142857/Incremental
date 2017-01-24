@@ -7,6 +7,8 @@
     <!--Css-->
     <link rel="stylesheet" href="/public/style/style.css">
     <link rel="stylesheet" href="/public/style/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/style/jquery-ui.css">
+    <link rel="stylesheet" href="/public/style/jquery-ui.theme.css">
 
 </head>
 <body>
@@ -39,37 +41,17 @@
         </div><!-- /.container-fluid -->
     </nav>
 
-    <div class="row">
+    <div class="row" id="row-informations">
         <div class="col-xs-12">
             <nav class="navbar navbar-default">
                 <ul class="nav navbar-nav">
                     <li><a>POPULATION</a></li>
-                    <li><a>Actuelle: <span id="actualPop"></span></a></li>
-                    <li><a>Maximum: <span id="maxPop"></span></a></li>
-                    <li><a>Evolution: <span id="evolutionPop"></span></a></li>
+                    <li><a>Actuelle: <span class="actualPop"></span></a></li>
+                    <li><a>Maximum: <span class="maxPop"></span></a></li>
+                    <li><a>Evolution: <span class="evolutionPop"></span></a></li>
                 </ul>
             </nav>
         </div>
-    </div>
-
-    <div class="row" id="row-informations">
-        <!--<div class="col-xs-3" id="population-information">-->
-        <!--<table class="table">-->
-        <!--<tr>POPULATION</tr>-->
-        <!--<tr>-->
-        <!--<td>Actuelle :</td>-->
-        <!--<td id="actualPop"></td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td>Maximum :</td>-->
-        <!--<td id="maxPop"></td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td>Evolution :</td>-->
-        <!--<td id="evolutionPop"></td>-->
-        <!--</tr>-->
-        <!--</table>-->
-        <!--</div>-->
     </div>
 
     <div class="row" id="row-batiments">
@@ -83,6 +65,7 @@
 
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="public/js/bootstrap.min.js"></script>
+<script src="public/js/jquery-ui.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="public/js/mainClient.js"></script>
 </body>

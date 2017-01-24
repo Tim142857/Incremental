@@ -31,7 +31,8 @@ value int not null,
 prix int not null,
 type varchar(15) not null,
 imageName varchar(35) not null,
-idRessource int not null
+idRessource int not null,
+population int not null
 );
 
 create table ressource(

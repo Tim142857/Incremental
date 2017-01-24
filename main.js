@@ -19,8 +19,25 @@ var globalSocket = null;
 
 //----------------------------- TRAITEMENT PRINCIPAL ------------------------------------
 
+
+//Fonction loop over time
+//recupoere la liste des connectes
+//Pour chaque connecte
+//Pour chaque ressource
+//Calculer combien ont été produit
+//Calculer nouveau stock
+//Evaluer evolution pop
+//donner nouvelle pop
+//update base
+//declencher event
+
+
 io.sockets.on('connection', function (socket) {
-    // insertData(testInsert);
+    // var refreshId = setInterval(function () {
+    //     console.log('hey!');
+    //     socket.emit('test');
+    // }, 50);
+    //insertData(testInsert);
     //J'enregistre la nouvelle connexion dans mes clients
     clients[socket.id] = socket;
     // console.log('nouvelle connexion de ' + socket.id);
@@ -49,6 +66,7 @@ io.sockets.on('connection', function (socket) {
 
 
 server.listen(8080);
+
 function testInsert() {
 
 

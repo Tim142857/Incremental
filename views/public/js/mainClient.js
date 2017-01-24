@@ -1,16 +1,48 @@
 $(document).ready(function () {
 
+    //-----------------------------------------  Constantes    ---------------------------------------------------------
+
+    var refreshPeriode = 1000; //temps en ms entre chaque refresh
+
+    //-----------------------------------------  Plugins   -------------------------------------------------------------
+
+    $(document).tooltip({
+        content: function () {
+            return $(this).prop('title');
+        }
+    });
+
+
+    //------------------------------------------    Socket    ----------------------------------------------------------
     //Connexon a socket.io
     var socket = io.connect('http://localhost:8080');
+
+    var idPlayer = readCookie('idPlayer');
+    socket.emit('load_user', idPlayer);
+
     socket.on('loaded_user', function (array) {
         console.log(array);
-        hydratePage(array);
+
+        hydratePage(array, function () {
+            var refreshId = setInterval(function () {
+                updateStock();
+            }, refreshPeriode);
+        });
     });
+    socket.on("test", function () {
+        console.log('hey!');
+    })
+
+
+    // -------------------------------------  Declenchements d'events --------------------------------------------------
 
     $("#btn-test").on('click', function () {
         var idPlayer = readCookie('idPlayer');
         socket.emit('load_user', idPlayer);
     });
+
+
+    //--------------------------------------  Fonctions   --------------------------------------------------------------
 
     function createCookie(name, value, days) {
         var expires = "";
@@ -33,20 +65,26 @@ $(document).ready(function () {
         return null;
     }
 
+    function htmlEncode(value) {
+        //create a in-memory div, set it's inner text(which jQuery automatically encodes)
+        //then grab the encoded contents back out.  The div never exists on the page.
+        return $('<div/>').text(value).html();
+    }
+
     function pushToArray(array, name, val) {
         var obj = {};
         obj[name] = val;
         array.push(obj);
     }
 
-    function hydratePage(array) {
+    function hydratePage(array, fn) {
         //Player
         $("#userName").text(array[0].name);
 
         //Population
-        $("#actualPop").text(array[2].actual);
-        $("#maxPop").text(array[2].actual);
-        $("#evolutionPop").text(array[2].evolution);
+        $(".actualPop").text(array[2].actual);
+        $(".maxPop").text(array[2].actual);
+        $(".evolutionPop").text(array[2].evolution);
 
 
         //Slots
@@ -55,8 +93,8 @@ $(document).ready(function () {
                 var rowToAppend = 'row-' + batiment.type + 's';
                 var html = " <div class='col-xs-3' id='batiment-" + batiment.id + "'>";
                 html += "<img class='img-responsive img-circle' src='public/images/" + batiment.imageName + "' style='position: relative; border:10px solid black;'>";
-                html += "<img class='img-responsive' src='public/images/info.png' style='width: 16%;height: 16%;position: absolute;top: -5%;left: 35%;'>";
-                html += "<img class='img-responsive' src='public/images/upgrade.png' style='width: 15%;height: 15%;position: absolute;top: -4%;left: 52%;'> ";
+                html += "<img class='img-responsive' src='public/images/info.png' title='<p>infos!</p>' style='width: 16%;height: 16%;position: absolute;top: -5%;left: 35%;'>";
+                html += "<img class='img-responsive' src='public/images/upgrade.png' title='upgrade!' style='width: 15%;height: 15%;position: absolute;top: -4%;left: 52%;'> ";
                 html += "</div>";
                 $('#' + rowToAppend).append(html);
 
@@ -80,104 +118,62 @@ $(document).ready(function () {
             $.get("/getRessource/" + element.idRessource, function (ressource) {
                 var ressourceName = ressource.name;
                 ressourceName = ressourceName.toUpperCase();
-                var html = "<div class='col-xs-3' id='ressource-" + element.idRessource + "-information'>";
+                var html = "<div class='col-xs-3 ressource-informations' id='ressource-" + element.idRessource + "'>";
                 html += "<table class='table'>";
                 html += "<tr>" + ressourceName + "</tr>";
                 html += "<tr>";
                 html += "<td>Stock :</td>";
-                html += "<td id='actualFood'>" + element.stock + "</td>";
+                html += "<td class='actual' data-actual='" + element.stock + "'>" + element.stock + "</td>";
                 html += "</tr>";
                 html += "<tr>";
                 html += "<td>Maximum :</td>";
-                html += "<td id='maxFood'>" + max + "</td>";
+                html += "<td class='max'>" + max + "</td>";
                 html += "</tr>";
                 html += "<tr>";
                 html += "<td>Production :</td>";
-                html += "<td id='evolutionFood'>" + production + "</td>";
+                html += "<td class='production'>" + production + "</td>";
                 html += "</tr>";
                 html += "</table>";
                 html += "<div>";
                 $("#row-informations").append(html);
             });
         });
+
+        fn();
     }
+
+    function updateStock(divRessource) {
+        //get stock, prod, max
+        //Calcul des ressources produites
+        //ajout au stock
+        //verifi si stock<=capcite max
+
+        $(".ressource-informations").each(function (index, element) {
+            var stock = parseFloat($(element).find('.actual').attr('data-actual'));
+            var max = parseInt($(element).find('.max').text());
+            var production = parseInt($(element).find('.production').text());
+            var ressourcesProduites = production * refreshPeriode / 3600000;
+            console.log('refreshPeriode:' + refreshPeriode);
+            console.log('stock:' + stock);
+            console.log('max:' + max);
+            console.log('production:' + production);
+            console.log(ressourcesProduites);
+            stock += parseFloat(ressourcesProduites);
+            console.log('new stock:' + stock);
+            $(element).find('.actual').attr('data-actual', stock);
+            $(element).find('.actual').text(parseInt(stock));
+
+
+        });
+        //
+        // var refreshId = setInterval(function () {
+        //     $(".ressource-informations").each(function (index, element) {
+        //         // var test = $(element).find('.actual').text();
+        //         // console.log(test);
+        //         updateStock($(element));
+        //     });
+        // }, 1000);
+
+    }
+
 })
-
-
-//        //On demande le pseudo, on l'envoie au serveur et on l'affiche dans le titre
-//
-//        var pseudo = prompt('Quel est votre pseudo?');
-//        socket.emit('nouveau_client', pseudo);
-//        document.title = pseudo + ' - ' + document.title;
-//
-//        function messageParser(element, index, array) {
-//            insereMessage(element['pseudo'], element['message']);
-//        }
-//        ;
-//        //Chargement derniers messages
-//        socket.on('chargementsDerniersMessages', function (data) {
-//            data.forEach(messageParser);
-//        });
-//
-//        //Quand on recoit un message, on l'affiche
-//        socket.on('message', function (data) {
-//            insereMessage(data.pseudo, data.message);
-//        });
-//
-//        //Quand un nouveau client se connecte, on affiche linfo
-//        //})
-//
-//        socket.on('nouveau_client', function (pseudo) {
-//            $('#zone_chat').prepend('<p><em>' + pseudo + ' a rejoint le Chat !</em></p>');
-//        })
-//
-//        // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
-//        $('#formulaire_chat').submit(function () {
-//            var message = $('#message').val();
-//            socket.emit('message', message); // Transmet le message aux autres
-//            insereMessage(pseudo, message); // Affiche le message aussi sur notre page
-//            $('#message').val('').focus(); // Vide la zone de Chat et remet le focus dessus
-//            return false; // Permet de bloquer l'envoi "classique" du formulaire
-//        });
-//
-//        //d�connexion d'un client
-//        socket.on('new_disconnect', function (pseudo) {
-//            $('#zone_chat').prepend('<p><b>' + pseudo + ' a quitt� le Chat !</b></p>');
-//        })
-//
-//        //Changement d'un pseudo
-//        socket.on('change_pseudo', function (data) {
-//            $('#zone_chat').prepend('<p><em>' + data.old_pseudo + " s\'est renomm� en : " + data.new_pseudo + '</em></p>');
-//        });
-//
-//        //Poke
-//        $("#zone_chat").on("click", $(".pseudo"), function () {
-//            return false;
-//        });
-//
-//        function sendPoke(elmnt) {
-//            var pseudoVise = elmnt.dataset.pseudo;
-//            socket.emit('poke', pseudo, pseudoVise);
-//        }
-//
-//        //Poke recu
-//        socket.on('poke_lance', function (data) {
-//            if (pseudo === data.pseudoVise) {
-//                alert(data.pseudo + ' vous a envoy� un poke');
-//            }
-//        });
-//
-//        // Ajoute un message dans la page
-//        function insereMessage(pseudo, message) {
-//            $('#zone_chat').prepend('<p><strong><a href="#" onclick="sendPoke(this)" class="pseudo" data-pseudo="' + pseudo + '" >' + pseudo + '</a></strong> ' + message + '</p>');
-//        }
-//
-//        $("#change_pseudo").on("click", function () {
-//            var new_pseudo = prompt('Entrez votre nouveau pseudo: ');
-//            pseudo = new_pseudo;
-//            $('#zone_chat').prepend('<p><em>Vous vous �tes rennom� en ' + pseudo + '<em></p>');
-//            socket.emit('change_pseudo', new_pseudo);
-//            document.title = new_pseudo + ' - ' + document.title;
-//            return false;
-//        });
-

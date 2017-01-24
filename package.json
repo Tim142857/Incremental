@@ -1,5 +1,5 @@
 {
-    "name": "super-chat",
+    "name": "Incremental",
     "version": "0.1.0",
     "dependencies": {
         "express": "~3.3.4",
@@ -7,5 +7,5 @@
         "ent": "~0.1.0"
     },
     "author": "Tim",
-    "description": "Un super Chat temps réel avec socket.io"
+    "description": "Browser game"
 }

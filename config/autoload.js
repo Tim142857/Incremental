@@ -21,3 +21,5 @@ eval(fs.readFileSync('./model/Reserve.js') + '');
 eval(fs.readFileSync('./controller/UserController.js') + '');
 eval(fs.readFileSync('./controller/BatimentController.js') + '');
 eval(fs.readFileSync('./controller/RessourceController.js') + '');
+eval(fs.readFileSync('./controller/SlotController.js') + '');
+eval(fs.readFileSync('./controller/PopulationController.js') + '');

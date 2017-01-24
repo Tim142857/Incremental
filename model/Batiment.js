@@ -6,7 +6,6 @@ var Batiment = {
     name: null,
     value: null,
     prix: null,
-    population: null,
     type: null,
     imageName: null,
     idRessource: null,

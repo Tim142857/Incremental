@@ -37,8 +37,22 @@ app.get("/getBatiment/:idBatiment", function (req, res) {
     });
 });
 
+app.get("/getNextBatiment/:idBatiment", function (req, res) {
+    BatimentController.getNextBatiment(req, res, function (object) {
+        res.send(object);
+        res.end();
+    });
+});
+
 app.get("/getRessource/:idRessource", function (req, res) {
     RessourceController.getRessource(req, res, function (object) {
+        res.send(object);
+        res.end();
+    });
+});
+
+app.get("/updateEmployes/:sens/:idSlot/:idPop", function (req, res) {
+    SlotController.updateEmployes(req, res, function (object) {
         res.send(object);
         res.end();
     });

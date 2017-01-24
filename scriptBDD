@@ -12,7 +12,8 @@ idPlayer int not null
 create table slot(
 id int primary key auto_increment,
 idVillage int not null,
-idBatiment int
+idBatiment int,
+employes int not null
 );
 
 create table population(
@@ -20,6 +21,7 @@ id int primary key auto_increment,
 idVillage int not null,
 max int not null,
 actual int not null,
+disponible int not null,
 evolution int not null
 );
 
@@ -44,7 +46,8 @@ create table reserve(
 id int primary key auto_increment,
 idVillage int not null,
 idRessource int not null,
-stock int not null
+stock int not null,
+lastUpdate datetime not null
 );
 
 

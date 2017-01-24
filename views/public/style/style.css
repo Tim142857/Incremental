@@ -9,3 +9,84 @@
 #row-batiments, #row-ressources {
     margin-bottom: 15px;
 }
+
+.btn-infos, .btn-upgrade {
+    z-index: 2;
+}
+
+.btn-infos {
+    width: 16%;
+    height: 16%;
+    position: absolute;
+    top: -5%;
+    left: 34%;
+}
+
+.btn-upgrade {
+    width: 15%;
+    height: 15%;
+    position: absolute;
+    top: -4%;
+    left: 51%;
+}
+
+.slot-employes {
+    background-color: #f8f8f8;
+    font-weight: bold;
+    border: solid black 8px;
+    width: 30%;
+    height: 28%;
+    position: absolute;
+    top: 86%;
+    left: 33%;
+    padding: 4% 0 0 5%;
+    font-size: 20px;
+}
+
+.slot-employes p {
+    float: left;
+}
+
+.arrows-employes img {
+    width: 42%;
+    height: 42%;
+}
+
+.arrow-up {
+    position: absolute;;
+    top: 11%;
+    left: 42%;
+}
+
+.arrow-down {
+    position: absolute;;
+    top: 43%;
+    left: 42%;
+}
+
+.div-ressource {
+    height: 250px;
+
+}
+
+.img-batiment {
+    position: relative;
+    border: 10px solid black;
+    height: 250px;
+    width: 250px;
+}
+
+.description {
+    color: white;
+    margin-top: -250px;
+    height: 250px;
+    width: 250px;
+    background-color: grey;
+    opacity: 0.75;
+    border: solid black 10px;
+    padding: 50px 20px 20px 25px;
+    font-weight: bold;
+    text-align: center;
+
+}
+

@@ -55,6 +55,13 @@ var SlotController = {
     },
 
     ugradeBatiment: function ugradeBatiment(req, res, callback) {
+        //Recuperer le slot
+        //recuperer le batiment d'apres
+        //Mettre a jour le stock
+        //verifier si stock necessaire ok
+        //upgrade slot
+        //upgrade stock
+        //renvoyer donnees au client
         var idSlot = req.params.idSlot;
         Crud.findOneById(Slot, idSlot, function (slot) {
             console.log(slot);

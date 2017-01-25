@@ -20,24 +20,8 @@ var globalSocket = null;
 //----------------------------- TRAITEMENT PRINCIPAL ------------------------------------
 
 
-//Fonction loop over time
-//recupoere la liste des connectes
-//Pour chaque connecte
-//Pour chaque ressource
-//Calculer combien ont été produit
-//Calculer nouveau stock
-//Evaluer evolution pop
-//donner nouvelle pop
-//update base
-//declencher event
-
-
 io.sockets.on('connection', function (socket) {
-    // var refreshId = setInterval(function () {
-    //     console.log('hey!');
-    //     socket.emit('test');
-    // }, 50);
-    //insertData(testInsert);
+    // insertData(testInsert);
     //J'enregistre la nouvelle connexion dans mes clients
     clients[socket.id] = socket;
     // console.log('nouvelle connexion de ' + socket.id);
@@ -67,8 +51,32 @@ io.sockets.on('connection', function (socket) {
 
 server.listen(8080);
 
-function testInsert() {
+function getDateTime() {
 
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+
+}
+
+function testInsert() {
 
     var player = Object.create(Player);
     player.name = 'Tim';
@@ -83,38 +91,44 @@ function testInsert() {
     reserve.idVillage = 1;
     reserve.idRessource = 1;
     reserve.stock = 10;
+    reserve.lastUpdate = getDateTime();
     Crud.insert(reserve);
 
     reserve.idVillage = 1;
     reserve.idRessource = 2;
-    reserve.stock = 100;
+    reserve.stock = 10;
     Crud.insert(reserve);
 
     var population = Object.create(Population);
     population.idVillage = 1;
-    population.max = 10;
+    population.max = 100;
     population.actual = 5;
-    population.evolution = 1;
+    population.evolution = 100;
+    population.disponible = 3;
     Crud.insert(population);
 
     var slot = Object.create(Slot);
     slot.idBatiment = 1;
     slot.idVillage = 1;
+    slot.employes = 0;
     Crud.insert(slot);
 
     var slot = Object.create(Slot);
     slot.idBatiment = 4;
     slot.idVillage = 1;
+    slot.employes = 1;
     Crud.insert(slot);
 
     var slot = Object.create(Slot);
     slot.idBatiment = 7;
     slot.idVillage = 1;
+    slot.employes = 0;
     Crud.insert(slot);
 
     var slot = Object.create(Slot);
     slot.idBatiment = 10;
     slot.idVillage = 1;
+    slot.employes = 1;
     Crud.insert(slot);
 
 }
@@ -122,56 +136,15 @@ function testInsert() {
 function insertData(callback) {
 
     var ressource = Object.create(Ressource);
-    ressource.name = 'nourriture';
-    Crud.insert(ressource);
-
-    var ressource = Object.create(Ressource);
     ressource.name = 'or';
     Crud.insert(ressource);
 
-    var batiment = Object.create(Batiment);
-    batiment.lvl = 1;
-    batiment.name = 'entrepot';
-    batiment.value = 15;
-    batiment.prix = 0;
-    batiment.type = 'batiment';
-    batiment.imageName = 'entrepot.jpg';
-    batiment.idRessource = 1;
-    Crud.insert(batiment);
+    var ressource = Object.create(Ressource);
+    ressource.name = 'nourriture';
+    Crud.insert(ressource);
 
-    batiment.lvl = 2;
-    batiment.value = 25;
-    batiment.prix = 10;
-    Crud.insert(batiment);
+    //-----------------------------------------------------------------
 
-    batiment.lvl = 3;
-    batiment.value = 50;
-    batiment.prix = 25;
-    Crud.insert(batiment);
-
-    //----------------
-
-    var batiment2 = Object.create(Batiment);
-    batiment2.lvl = 1;
-    batiment2.name = 'champ de ble';
-    batiment2.value = 5;
-    batiment2.prix = 0;
-    batiment2.type = 'ressource';
-    batiment2.imageName = 'ble.jpg';
-    batiment2.idRessource = 1;
-    Crud.insert(batiment2);
-
-    batiment2.lvl = 2;
-    batiment2.value = 10;
-    batiment2.prix = 10;
-    Crud.insert(batiment2);
-
-    batiment2.lvl = 3;
-    batiment2.value = 15;
-    batiment2.prix = 15;
-    Crud.insert(batiment2);
-
-    //----------------------------
 
     var batiment3 = Object.create(Batiment);
     batiment3.lvl = 1;
@@ -180,7 +153,7 @@ function insertData(callback) {
     batiment3.prix = 0;
     batiment3.type = 'batiment';
     batiment3.imageName = 'mine_d_or.jpg';
-    batiment3.idRessource = 2;
+    batiment3.idRessource = 1;
     Crud.insert(batiment3);
 
     batiment3.lvl = 2;
@@ -198,22 +171,69 @@ function insertData(callback) {
     var batiment2 = Object.create(Batiment);
     batiment2.lvl = 1;
     batiment2.name = "or";
-    batiment2.value = 5;
+    batiment2.value = 7;
     batiment2.prix = 0;
     batiment2.type = 'ressource';
     batiment2.imageName = 'or.jpg';
+    batiment2.idRessource = 1;
+    Crud.insert(batiment2);
+
+    batiment2.lvl = 2;
+    batiment2.value = 15;
+    batiment2.prix = 10;
+    Crud.insert(batiment2);
+
+    batiment2.lvl = 3;
+    batiment2.value = 25;
+    batiment2.prix = 20;
+    Crud.insert(batiment2);
+
+    //------------------------------------------------------------
+
+    var batiment = Object.create(Batiment);
+    batiment.lvl = 1;
+    batiment.name = 'entrepot';
+    batiment.value = 15;
+    batiment.prix = 0;
+    batiment.type = 'batiment';
+    batiment.imageName = 'entrepot.jpg';
+    batiment.idRessource = 2;
+    Crud.insert(batiment);
+
+    batiment.lvl = 2;
+    batiment.value = 25;
+    batiment.prix = 18;
+    Crud.insert(batiment);
+
+    batiment.lvl = 3;
+    batiment.value = 50;
+    batiment.prix = 25;
+    Crud.insert(batiment);
+
+    //----------------
+
+    var batiment2 = Object.create(Batiment);
+    batiment2.lvl = 1;
+    batiment2.name = 'champ de ble';
+    batiment2.value = 5;
+    batiment2.prix = 0;
+    batiment2.type = 'ressource';
+    batiment2.imageName = 'ble.jpg';
     batiment2.idRessource = 2;
     Crud.insert(batiment2);
 
     batiment2.lvl = 2;
     batiment2.value = 10;
-    batiment2.prix = 10;
+    batiment2.prix = 15;
     Crud.insert(batiment2);
 
     batiment2.lvl = 3;
     batiment2.value = 15;
     batiment2.prix = 15;
     Crud.insert(batiment2);
+
+    //----------------------------
+
 
     callback();
 }

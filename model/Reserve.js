@@ -5,6 +5,7 @@ var Reserve = {
     idVillage: null,
     idRessource: null,
     stock: null,
+    lastUpdate: null,
 
     //Contructeur
     Reserve: function construct(idVillage, idRessource, stock) {

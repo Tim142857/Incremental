@@ -5,6 +5,7 @@ var Population = {
     idVillage: null,
     max: null,
     actual: null,
+    disponible: null,
     evolution: null,
 
     //Contructeur

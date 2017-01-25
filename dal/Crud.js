@@ -48,6 +48,7 @@ var Crud = {
     //----------------------------------FONCTION FINDBYID-----------------------------------------------------------------
     findOneById: function (ObjectType, id, fn) {
         var selectQuery = "SELECT * FROM " + ObjectType.getClassName() + " WHERE id=" + id;
+        // console.log(selectQuery);
         connectionSQL.query(
             selectQuery,
             function findOneById(error, results, fields) {
@@ -188,14 +189,14 @@ var Crud = {
     },
 
     //----------------------------------FONCTION UPDATE-----------------------------------------------------------------
-    update: function (object) {
+    update: function (object, fn) {
         var setquery = ' SET ';
 
         for (var key in object) {
-            console.log(key);
-            console.log(typeof(object[key]));
+            // console.log(key);
+            // console.log(typeof(object[key]));
             if (typeof(object[key]) != "function" && key != 'id') {
-                console.log('je passe');
+                // console.log('je passe');
                 setquery += key + "='" + object[key] + "', ";
             }
         }
@@ -203,7 +204,7 @@ var Crud = {
         setquery += ' WHERE id=' + object.id;
 
         var selectQuery = "UPDATE " + object.getClassName() + setquery;
-        console.log(selectQuery);
+        // console.log(selectQuery);
         connectionSQL.query(
             selectQuery,
             function update(error, results, fields) {
@@ -216,6 +217,9 @@ var Crud = {
                     console.log('INFO:' + myName + ' ok');
                 }
             });
+        if (typeof(fn) != 'undefined' && typeof(fn) == 'function') {
+            fn(object);
+        }
     },
 
 

@@ -4,6 +4,7 @@ var Slot = {
     id: null,
     idVillage: null,
     idBatiment: null,
+    employes: null,
 
     //Contructeur
     Slot: function construct(idVillage, idBatiment) {

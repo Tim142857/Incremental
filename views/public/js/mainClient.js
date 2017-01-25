@@ -29,18 +29,20 @@ $(document).ready(function () {
     });
 
     socket.on("test", function () {
-        // console.log('hey!');
-    })
+        $.get("/test/", function (batiment) {
+        });
+    });
 
     socket.on('error', function (error_message) {
         alert(error_message);
     })
 
 
-    // -------------------------------------  Declenchements d'events --------------------------------------------------
+// -------------------------------------  Declenchements d'events --------------------------------------------------
 
     $("#btn-test").on('click', function () {
-        updateInfos();
+        $.get("/test/", function (batiment) {
+        });
     });
 
     $(document).delegate(".arrow-employes", 'click', function () {
@@ -97,7 +99,14 @@ $(document).ready(function () {
         $(this).parent().find('.description').removeClass('hidden');
     });
 
-    //--------------------------------------  Fonctions   --------------------------------------------------------------
+    $(document).delegate('.btn-upgrade', 'click', function () {
+        var idSlot = $(this).closest(".div-ressource").attr('data-idslot');
+        console.log(idSlot);
+        $.get("/upgradeBatiment/" + idSlot, function () {
+        });
+    })
+
+//--------------------------------------  Fonctions   --------------------------------------------------------------
 
     function createCookie(name, value, days) {
         var expires = "";
@@ -190,7 +199,11 @@ $(document).ready(function () {
                     html += "<p>" + element.employes + "</p>";
                     html += "<div class='arrows-employes'>";
                     html += "<img class='arrow-up arrow-employes img-circle' src='public/images/arrow-up.png'>";
-                    html += "<img class='arrow-down arrow-employes img-circle' src='public/images/arrow-down.png'>";
+                    if (element.employes == 0) {
+                        html += "<img class='arrow-down arrow-employes img-circle hidden' src='public/images/arrow-down.png'>";
+                    } else {
+                        html += "<img class='arrow-down arrow-employes img-circle' src='public/images/arrow-down.png'>";
+                    }
                     html += "</div></div>";
                 }
                 html += "</div>";
@@ -201,16 +214,12 @@ $(document).ready(function () {
                     createCookie('capacite-ressource-' + batiment.idRessource, batiment.value, 1);
                 } else {
                     createCookie('production-ressource-' + batiment.idRessource, batiment.value, 1);
-                    // console.log($('#ressource-' + batiment.idRessource).find('.production').text());
                     var prod = parseInt($('#ressource-' + batiment.idRessource).find('.production').text());
-                    // console.log(prod);
                     prod = prod * parseInt(element.employes);
-                    // console.log(prod);
-                    $('#ressource-' + batiment.idRessource).find('.production').text(prod)
+                    $('#ressource-' + batiment.idRessource).find('.production').text(prod);
                 }
             });
         });
-
 
         fn();
     }
@@ -297,6 +306,11 @@ $(document).ready(function () {
 
     function timerUpdate(fn) {
         var refreshId = setInterval(function () {
+            if ($(".disponiblePop").text() == 0) {
+                $(".arrow-up").each(function (index, element) {
+                    $(element).addClass("hidden");
+                });
+            }
             updateStock();
             updateInfos();
         }, refreshPeriode);

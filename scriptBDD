@@ -46,7 +46,7 @@ id int primary key auto_increment,
 idVillage int not null,
 idRessource int not null,
 stock int not null,
-lastUpdate timestamp not null
+lastUpdate datetime default current_timestamp on update current_timestamp
 );
 
 

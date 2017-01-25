@@ -18,6 +18,10 @@ app.get('/', function (req, res) {
     res.sendfile(__dirname + '/views/login.html');
 });
 
+app.get('/test', function (req, res) {
+    CustomRepository.updateStock(1);
+});
+
 
 //-------------------------------------------    USER    ---------------------------------------------------------------
 app.get('/login.html', function (req, res) {
@@ -55,6 +59,12 @@ app.get("/updateEmployes/:sens/:idSlot/:idPop", function (req, res) {
     SlotController.updateEmployes(req, res, function (object) {
         res.send(object);
         res.end();
+    });
+});
+
+app.get("/upgradeBatiment/:idSlot", function (req, res) {
+    SlotController.ugradeBatiment(req, res, function (object) {
+        console.log(object);
     });
 });
 

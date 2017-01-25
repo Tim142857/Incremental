@@ -4,7 +4,7 @@ eval(fs.readFileSync('../incremental/config/routing.js') + '');
 //-------------------------------------- DAL ---------------------------------------------------------------------------
 eval(fs.readFileSync('./dal/ConnexionBase.js') + '');
 eval(fs.readFileSync('./dal/Crud.js') + '');
-
+eval(fs.readFileSync('./dal/CustomRepository.js') + '');
 
 //------------------------------------  MODEL --------------------------------------------------------------------------
 eval(fs.readFileSync('./model/Player.js') + '');
@@ -23,3 +23,6 @@ eval(fs.readFileSync('./controller/BatimentController.js') + '');
 eval(fs.readFileSync('./controller/RessourceController.js') + '');
 eval(fs.readFileSync('./controller/SlotController.js') + '');
 eval(fs.readFileSync('./controller/PopulationController.js') + '');
+eval(fs.readFileSync('./controller/ReserveController.js') + '');
+
+

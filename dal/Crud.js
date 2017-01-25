@@ -14,8 +14,10 @@ var Crud = {
             }
             //Pour chaque clé qui n'est pas une fonction(==attribut), j'enregistre la clé et la valeur
             if (typeof(object[key]) != "function" && key != 'id') {
-                listProperties += key + ", ";
-                listValues += "'" + object[key] + "', ";
+                if (key != 'lastUpdate') {
+                    listProperties += key + ", ";
+                    listValues += "'" + object[key] + "', ";
+                }
             }
         }
 
@@ -173,7 +175,7 @@ var Crud = {
     //----------------------------------FONCTION DELETE-----------------------------------------------------------------
     delete: function (object) {
         var selectQuery = "DELETE FROM " + object.getClassName() + " WHERE id=" + object.id;
-        console.log(selectQuery);
+        // console.log(selectQuery);
         connectionSQL.query(
             selectQuery,
             function suppress(error, results, fields) {
@@ -196,8 +198,10 @@ var Crud = {
             // console.log(key);
             // console.log(typeof(object[key]));
             if (typeof(object[key]) != "function" && key != 'id') {
-                // console.log('je passe');
-                setquery += key + "='" + object[key] + "', ";
+                if (key != 'lastUpdate') {
+                    // console.log('je passe');
+                    setquery += key + "='" + object[key] + "', ";
+                }
             }
         }
         setquery = setquery.substring(0, setquery.length - 2);

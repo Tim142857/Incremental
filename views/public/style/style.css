@@ -6,7 +6,7 @@
     font-size: 15px;
 }
 
-#row-batiments, #row-ressources {
+#row-batiments, #row-ressources, #row-habitations {
     margin-bottom: 15px;
 }
 
@@ -66,7 +66,6 @@
 
 .div-ressource {
     height: 250px;
-
 }
 
 .img-batiment {

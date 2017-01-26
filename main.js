@@ -41,7 +41,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('load_user', function (idPlayer) {
         UserController.loadUser(idPlayer, function (array) {
-            console.log(array);
+            // console.log(array);
             socket.emit("loaded_user", array);
         });
 
@@ -91,9 +91,6 @@ function testInsert() {
     reserve.idVillage = 1;
     reserve.idRessource = 1;
     reserve.stock = 10;
-    // var date = datetime.create(Date.now()).getTime();
-    // console.log(date);
-    // reserve.lastUpdate = date;
     Crud.insert(reserve);
 
     reserve.idVillage = 1;
@@ -131,6 +128,12 @@ function testInsert() {
     slot.idBatiment = 10;
     slot.idVillage = 1;
     slot.employes = 1;
+    Crud.insert(slot);
+
+    var slot = Object.create(Slot);
+    slot.idBatiment = 13;
+    slot.idVillage = 1;
+    slot.employes = null;
     Crud.insert(slot);
 
 }
@@ -233,6 +236,27 @@ function insertData(callback) {
     batiment2.value = 15;
     batiment2.prix = 15;
     Crud.insert(batiment2);
+
+    //----------------------------
+
+    var batiment3 = Object.create(Batiment);
+    batiment3.lvl = 1;
+    batiment3.name = 'Maison';
+    batiment3.value = 5;
+    batiment3.prix = 0;
+    batiment3.type = 'habitation';
+    batiment3.imageName = 'maison.jpg';
+    Crud.insert(batiment3);
+
+    batiment3.lvl = 2;
+    batiment3.value = 10;
+    batiment3.prix = 15;
+    Crud.insert(batiment3);
+
+    batiment3.lvl = 3;
+    batiment3.value = 15;
+    batiment3.prix = 15;
+    Crud.insert(batiment3);
 
     //----------------------------
 

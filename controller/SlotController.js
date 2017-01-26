@@ -8,8 +8,8 @@ var SlotController = {
         Crud.findOneById(Population, idPop, function (pop) {
             //Mise a jour du stock
             ReserveController.updateStock(pop.idVillage, function (reserve) {
-                console.log('resultat!');
-                console.log(reserve);
+                // console.log('resultat!');
+                // console.log(reserve);
             });
 
             // console.log(2);
@@ -55,6 +55,18 @@ var SlotController = {
     },
 
     ugradeBatiment: function ugradeBatiment(req, res, callback) {
+        var idSlot = req.params.idSlot;
+        Crud.findOneById(Slot, idSlot, function (slot) {
+            SlotController.getBatimentOnSlot(idSlot, function (batiment) {
+                BatimentController.getNextBatiment(batiment.id, function (nextBatiment) {
+                    // console.log(nextBatiment);
+                    var prix = nextBatiment.prix;
+                    ReserveController.updateStock(slot.idVillage, function () {
+                    });
+                });
+            });
+        })
+
         //Recuperer le slot
         //recuperer le batiment d'apres
         //Mettre a jour le stock
@@ -62,9 +74,12 @@ var SlotController = {
         //upgrade slot
         //upgrade stock
         //renvoyer donnees au client
-        var idSlot = req.params.idSlot;
-        Crud.findOneById(Slot, idSlot, function (slot) {
-            console.log(slot);
+
+    },
+
+    getBatimentOnSlot: function getBatimentOnSlot(idSlot, fn) {
+        CustomRepository.getBatimentOnSlot(idSlot, function (batiment) {
+            fn(batiment);
         });
     }
 }

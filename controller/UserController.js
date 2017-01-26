@@ -26,7 +26,7 @@ var UserController = {
     loadUser: function loadUser(idPlayer, callback) {
         var array = [];
         //chargement user
-        console.log(idPlayer);
+        // console.log(idPlayer);
         Crud.findOneById(Player, idPlayer, function (player) {
             array.push(player);
             //chargement village

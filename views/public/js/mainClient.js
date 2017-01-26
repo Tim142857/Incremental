@@ -190,6 +190,7 @@ $(document).ready(function () {
         array[3].forEach(function (element) {
             $.get("/getBatiment/" + element.idBatiment, function (batiment) {
                 var rowToAppend = 'row-' + batiment.type + 's';
+                console.log(rowToAppend);
                 var html = " <div class='col-xs-3 div-ressource' data-idRessource='" + batiment.idRessource + "' data-idslot='" + element.id + "' data-value='" + batiment.value + "' id='batiment-" + batiment.id + "'>";
                 html += "<img class='img-circle img-batiment' src='public/images/" + batiment.imageName + "'>";
                 html += "<img class='img-responsive  btn-infos' data-hydrated='false' src='public/images/info.png'>";
@@ -207,6 +208,7 @@ $(document).ready(function () {
                     html += "</div></div>";
                 }
                 html += "</div>";
+                // console.log(html);
                 $('#' + rowToAppend).append(html);
 
                 //Recuperation de la capacite max de chaque ressource
@@ -275,6 +277,11 @@ $(document).ready(function () {
                             valueword = 'Production';
                             actuelWord = ' actuelle';
                             timeWord = '/h';
+                        }
+                        if (batiment.type == 'habitation') {
+                            valueword = 'Population';
+                            actuelWord = ' actuelle';
+                            timeWord = '';
                         }
                         var html = "<div class='img-circle description hidden'>";
                         html += "<p>" + valueword + actuelWord + " : " + prodActuelle + timeWord + "</p>";

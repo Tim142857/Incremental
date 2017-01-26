@@ -14,7 +14,7 @@ var Crud = {
             }
             //Pour chaque clé qui n'est pas une fonction(==attribut), j'enregistre la clé et la valeur
             if (typeof(object[key]) != "function" && key != 'id') {
-                if (key != 'lastUpdate') {
+                if (key != 'lastUpdate' && object[key] != null && object[key] != 'null') {
                     listProperties += key + ", ";
                     listValues += "'" + object[key] + "', ";
                 }
@@ -30,17 +30,23 @@ var Crud = {
             console.log("WARNING: le nom de classe n'a pas pu être récupéré");
         } else {
             var selectQuery = "INSERT INTO " + className + " (" + listProperties + ") VALUES(" + listValues + ")";
-            console.log(selectQuery);
+            // console.log(selectQuery);
             connectionSQL.query(
                 selectQuery,
                 function insert(error, results, fields) {
-                    if (error)
-                        console.log('ERROR: Error while performing Query : ' + error);
+                    if (error) {
+                        var myName = arguments.callee.toString();
+                        myName = myName.substr('function '.length);
+                        myName = myName.substr(0, myName.indexOf('('));
+                        console.log(myName + '/ERROR: Error while performing Query : ' + error);
+                        console.log(selectQuery);
+                        console.log('-------------------------------');
+                    }
                     else {
                         var myName = arguments.callee.toString();
                         myName = myName.substr('function '.length);
                         myName = myName.substr(0, myName.indexOf('('));
-                        console.log('INFO:' + myName + ' ok');
+                        // console.log('INFO:' + myName + ' ok');
                     }
                 })
         }
@@ -54,8 +60,14 @@ var Crud = {
         connectionSQL.query(
             selectQuery,
             function findOneById(error, results, fields) {
-                if (error)
-                    console.log('Error while performing Query : ' + error);
+                if (error) {
+                    var myName = arguments.callee.toString();
+                    myName = myName.substr('function '.length);
+                    myName = myName.substr(0, myName.indexOf('('));
+                    console.log(myName + '/ERROR: Error while performing Query : ' + error);
+                    console.log(selectQuery);
+                    console.log('-------------------------------');
+                }
                 else {
 
                     if (results.length > 0) {
@@ -71,7 +83,7 @@ var Crud = {
                     var myName = arguments.callee.toString();
                     myName = myName.substr('function '.length);
                     myName = myName.substr(0, myName.indexOf('('));
-                    console.log('INFO:' + myName + ' ok');
+                    // console.log('INFO:' + myName + ' ok');
                     fn(myObject);
                 }
             });
@@ -84,8 +96,14 @@ var Crud = {
         connectionSQL.query(
             selectQuery,
             function findAll(error, results, fields) {
-                if (error)
-                    console.log('Error while performing Query : ' + error);
+                if (error) {
+                    var myName = arguments.callee.toString();
+                    myName = myName.substr('function '.length);
+                    myName = myName.substr(0, myName.indexOf('('));
+                    console.log(myName + '/ERROR: Error while performing Query : ' + error);
+                    console.log(selectQuery);
+                    console.log('-------------------------------');
+                }
                 else {
 
                     //Je créé mon tableau qui va contenir tous mes objects
@@ -105,7 +123,7 @@ var Crud = {
                     var myName = arguments.callee.toString();
                     myName = myName.substr('function '.length);
                     myName = myName.substr(0, myName.indexOf('('));
-                    console.log('INFO:' + myName + ' ok');
+                    // console.log('INFO:' + myName + ' ok');
                     fn(arrayObjects);
                 }
             });
@@ -125,15 +143,25 @@ var Crud = {
         var whereQuery = ' WHERE ';
         for (var key in array) {
             //Si attribut peut valoir plusieurs valeurs
-            if (typeof(array[key]) == "object") {
+            if (typeof(array[key]) == "object" && array[key] != null) {
                 whereQuery += ' (';
                 for (var key2 in array[key]) {
-                    whereQuery += key + "='" + array[key][key2] + "' OR ";
+                    if (array[key] != null) {
+                        whereQuery += key + "='" + array[key] + "'";
+                    } else {
+                        whereQuery += key + " is null";
+                    }
+                    whereQuery += " OR ";
                 }
                 whereQuery = whereQuery.substring(0, whereQuery.length - 4);
                 whereQuery += ')';
             } else {
-                whereQuery += key + "='" + array[key] + "'";
+                if (array[key] != null) {
+                    whereQuery += key + "='" + array[key] + "'";
+                } else {
+                    whereQuery += key + " is null";
+                }
+
             }
 
             whereQuery += ' and ';
@@ -148,7 +176,12 @@ var Crud = {
             selectQuery,
             function findBy(error, results, fields) {
                 if (error) {
-                    console.log('Error while performing Query : ' + error);
+                    var myName = arguments.callee.toString();
+                    myName = myName.substr('function '.length);
+                    myName = myName.substr(0, myName.indexOf('('));
+                    console.log(myName + '/ERROR: Error while performing Query : ' + error);
+                    console.log(selectQuery);
+                    console.log('-------------------------------');
                 }
                 else {
                     //Je parse chaque ligne de mes resultats en 1 object
@@ -179,13 +212,19 @@ var Crud = {
         connectionSQL.query(
             selectQuery,
             function suppress(error, results, fields) {
-                if (error)
-                    console.log('Error while performing Query : ' + error);
+                if (error) {
+                    var myName = arguments.callee.toString();
+                    myName = myName.substr('function '.length);
+                    myName = myName.substr(0, myName.indexOf('('));
+                    console.log(myName + '/ERROR: Error while performing Query : ' + error);
+                    console.log(selectQuery);
+                    console.log('-------------------------------');
+                }
                 else {
                     var myName = arguments.callee.toString();
                     myName = myName.substr('function '.length);
                     myName = myName.substr(0, myName.indexOf('('));
-                    console.log('INFO:' + myName + ' ok');
+                    // console.log('INFO:' + myName + ' ok');
                 }
             });
     },
@@ -198,10 +237,7 @@ var Crud = {
             // console.log(key);
             // console.log(typeof(object[key]));
             if (typeof(object[key]) != "function" && key != 'id') {
-                if (key != 'lastUpdate') {
-                    // console.log('je passe');
-                    setquery += key + "='" + object[key] + "', ";
-                }
+                setquery += key + "='" + object[key] + "', ";
             }
         }
         setquery = setquery.substring(0, setquery.length - 2);
@@ -212,13 +248,19 @@ var Crud = {
         connectionSQL.query(
             selectQuery,
             function update(error, results, fields) {
-                if (error)
-                    console.log('Error while performing Query : ' + error);
+                if (error) {
+                    var myName = arguments.callee.toString();
+                    myName = myName.substr('function '.length);
+                    myName = myName.substr(0, myName.indexOf('('));
+                    console.log(myName + '/ERROR: Error while performing Query : ' + error);
+                    console.log(selectQuery);
+                    console.log('-------------------------------');
+                }
                 else {
                     var myName = arguments.callee.toString();
                     myName = myName.substr('function '.length);
                     myName = myName.substr(0, myName.indexOf('('));
-                    console.log('INFO:' + myName + ' ok');
+                    // console.log('INFO:' + myName + ' ok');
                 }
             });
         if (typeof(fn) != 'undefined' && typeof(fn) == 'function') {

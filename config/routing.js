@@ -42,7 +42,8 @@ app.get("/getBatiment/:idBatiment", function (req, res) {
 });
 
 app.get("/getNextBatiment/:idBatiment", function (req, res) {
-    BatimentController.getNextBatiment(req, res, function (object) {
+    var idBatiment = parseInt(req.params.idBatiment);
+    BatimentController.getNextBatiment(idBatiment, function (object) {
         res.send(object);
         res.end();
     });
@@ -64,7 +65,7 @@ app.get("/updateEmployes/:sens/:idSlot/:idPop", function (req, res) {
 
 app.get("/upgradeBatiment/:idSlot", function (req, res) {
     SlotController.ugradeBatiment(req, res, function (object) {
-        console.log(object);
+        // console.log(object);
     });
 });
 

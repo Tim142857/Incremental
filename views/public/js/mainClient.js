@@ -8,6 +8,8 @@ $(document).ready(function () {
     var idVillage = null;
     var idPopulation = null;
 
+    var hydratedPage = false;
+
     //-----------------------------------------  Plugins   -------------------------------------------------------------
 
 
@@ -41,8 +43,7 @@ $(document).ready(function () {
 // -------------------------------------  Declenchements d'events --------------------------------------------------
 
     $("#btn-test").on('click', function () {
-        $.get("/test/", function (batiment) {
-        });
+        socket.emit('load_user', idPlayer);
     });
 
     $(document).delegate(".arrow-employes", 'click', function () {
@@ -102,7 +103,9 @@ $(document).ready(function () {
     $(document).delegate('.btn-upgrade', 'click', function () {
         var idSlot = $(this).closest(".div-ressource").attr('data-idslot');
         console.log(idSlot);
-        $.get("/upgradeBatiment/" + idSlot, function () {
+        $.get("/upgradeBatiment/" + idSlot, function (message) {
+            console.log(message);
+            socket.emit('load_user', idPlayer);
         });
     })
 
@@ -142,6 +145,14 @@ $(document).ready(function () {
     }
 
     function hydratePage(array, fn) {
+        // console.log(hydratedPage);
+        if (hydratedPage) {
+            resetPage();
+        }
+        if (hydratedPage == false) {
+            hydratedPage = true;
+        }
+        // console.log(hydratedPage);
         //Player
         $("#userName").text(array[0].name);
 
@@ -190,7 +201,7 @@ $(document).ready(function () {
         array[3].forEach(function (element) {
             $.get("/getBatiment/" + element.idBatiment, function (batiment) {
                 var rowToAppend = 'row-' + batiment.type + 's';
-                console.log(rowToAppend);
+                // console.log(rowToAppend);
                 var html = " <div class='col-xs-3 div-ressource' data-idRessource='" + batiment.idRessource + "' data-idslot='" + element.id + "' data-value='" + batiment.value + "' id='batiment-" + batiment.id + "'>";
                 html += "<img class='img-circle img-batiment' src='public/images/" + batiment.imageName + "'>";
                 html += "<img class='img-responsive  btn-infos' data-hydrated='false' src='public/images/info.png'>";
@@ -284,6 +295,7 @@ $(document).ready(function () {
                             timeWord = '';
                         }
                         var html = "<div class='img-circle description hidden'>";
+                        html += "<h3 class='titre-description'>Niveau " + (batiment.lvl - 1) + "</h3>";
                         html += "<p>" + valueword + actuelWord + " : " + prodActuelle + timeWord + "</p>";
                         html += "<p>" + valueword + " prochain lvl: " + batiment.value + timeWord + "<br/>";
                         html += "Cout pour passer au prochain lvl: <span class='costNextLvl'>" + batiment.prix + "</span> or ";
@@ -321,6 +333,52 @@ $(document).ready(function () {
             updateStock();
             updateInfos();
         }, refreshPeriode);
+    }
+
+    function resetPage() {
+
+        $('#row-informations').remove();
+        $('#row-habitations').remove();
+        $('#row-batiments').remove();
+        $('#row-ressources').remove();
+
+        var html = "<div class='row' id='row-informations'>";
+        html += "<div class='col-xs-12'>";
+        html += "<nav class='navbar navbar-default'>";
+        html += "<ul class='nav navbar-nav'>";
+        html += "<li><a>POPULATION</a></li>";
+        html += "<li><a>Totale: <span data-totalpop='' class='totalPop'></span></a></li>";
+        html += "<li><a>Disponible: <span data-disponiblePop='' class='disponiblePop'></span></a></li>";
+        html += "<li><a>Maximum: <span class='maxPop'></span></a></li>";
+        html += "<li><a>Evolution: <span class='evolutionPop'></span></a></li>";
+        html += "</ul>";
+        html += "</nav>";
+        html += "</div>";
+        html += "</div>";
+
+
+        html += "<div class='row' id='row-habitations'>";
+        html += "</div>";
+        html += "<div class='row' id='row-batiments'>";
+        html += "</div>";
+        html += "<div class='row' id='row-ressources'>";
+        html += "</div>";
+
+        $("nav").after(html);
+    }
+
+    function num(number) {
+        var numberFormated = '';
+        number = parseInt(number);
+        if (number < 1000) {
+            numberFormated = number;
+        } else if (number >= 1000 && number < 1000000) {
+            numberFormated = number / 1000 + 'k';
+        } else {
+            numberFormated = number / 1000000 + 'M';
+        }
+        console.log(numberFormated);
+        return numberFormated;
     }
 
 })

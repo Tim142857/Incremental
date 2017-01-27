@@ -1,5 +1,4 @@
 app.get('/accueil', function (req, res) {
-
     if (('idPlayer' in req.cookies) == false || req.cookies['idPlayer'] == 'null') {
         res.redirect('/');
     } else {
@@ -64,8 +63,10 @@ app.get("/updateEmployes/:sens/:idSlot/:idPop", function (req, res) {
 });
 
 app.get("/upgradeBatiment/:idSlot", function (req, res) {
-    SlotController.ugradeBatiment(req, res, function (object) {
-        // console.log(object);
+    SlotController.ugradeBatiment(req, res, function (message) {
+        // console.log(message);
+        res.send(message);
+        res.end();
     });
 });
 

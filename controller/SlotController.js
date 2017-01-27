@@ -62,6 +62,34 @@ var SlotController = {
                     // console.log(nextBatiment);
                     var prix = nextBatiment.prix;
                     ReserveController.updateStock(slot.idVillage, function () {
+                        ReserveController.getOrStock(slot.idVillage, function (arrayReserves) {
+                            var stockOr = arrayReserves[0].stock;
+                            if (stockOr >= prix) {
+                                slot.idBatiment = nextBatiment.id;
+                                Crud.update(slot, function () {
+                                    // console.log('update du slot...');
+                                    arrayReserves[0].stock = stockOr - prix;
+                                    arrayReserves[0].lastUpdate = getDateTime();
+                                    // console.log(getDateTime());
+                                    Crud.update(arrayReserves[0], function () {
+                                        // console.log('update du stock or...');
+                                        callback('tout est OK');
+                                        if (batiment.type == 'habitation') {
+                                            Crud.findBy(Population, {idVillage: slot.idVillage}, function (array) {
+                                                var pop = array[0];
+                                                var popSupp = nextBatiment.value - pop.max;
+                                                pop.max = nextBatiment.value;
+                                                pop.actual = pop.max;
+                                                pop.disponible += popSupp;
+                                                Crud.update(pop, function () {
+                                                    console.log('pop à jour');
+                                                });
+                                            });
+                                        }
+                                    });
+                                });
+                            }
+                        });
                     });
                 });
             });

@@ -90,7 +90,7 @@ function testInsert() {
     var reserve = Object.create(Reserve);
     reserve.idVillage = 1;
     reserve.idRessource = 1;
-    reserve.stock = 10;
+    reserve.stock = 70;
     Crud.insert(reserve);
 
     reserve.idVillage = 1;
@@ -100,41 +100,43 @@ function testInsert() {
 
     var population = Object.create(Population);
     population.idVillage = 1;
-    population.max = 100;
-    population.actual = 5;
+    population.max = 10;
+    population.actual = 10;
     population.evolution = 100;
-    population.disponible = 3;
+    population.disponible = 8;
     Crud.insert(population);
 
     var slot = Object.create(Slot);
-    slot.idBatiment = 1;
+    slot.idBatiment = 5;
     slot.idVillage = 1;
     slot.employes = 0;
     Crud.insert(slot);
 
     var slot = Object.create(Slot);
-    slot.idBatiment = 4;
+    slot.idBatiment = 15;
     slot.idVillage = 1;
     slot.employes = 1;
     Crud.insert(slot);
 
     var slot = Object.create(Slot);
-    slot.idBatiment = 7;
+    slot.idBatiment = 24;
     slot.idVillage = 1;
     slot.employes = 0;
     Crud.insert(slot);
 
     var slot = Object.create(Slot);
-    slot.idBatiment = 10;
+    slot.idBatiment = 32;
     slot.idVillage = 1;
     slot.employes = 1;
     Crud.insert(slot);
 
     var slot = Object.create(Slot);
-    slot.idBatiment = 13;
+    slot.idBatiment = 38;
     slot.idVillage = 1;
     slot.employes = null;
     Crud.insert(slot);
+
+    console.log('jeu de données inséré');
 
 }
 
@@ -150,113 +152,82 @@ function insertData(callback) {
 
     //-----------------------------------------------------------------
 
+    var counter = 1;
+    do {
+        var batiment3 = Object.create(Batiment);
+        batiment3.lvl = 1 * counter;
+        batiment3.name = "mine d''or";
+        batiment3.value = 15 * counter;
+        batiment3.prix = 5 * counter * 1.5;
+        batiment3.type = 'batiment';
+        batiment3.imageName = 'mine_d_or.jpg';
+        batiment3.idRessource = 1;
+        Crud.insert(batiment3);
+        counter++;
+    } while (counter != 10);
 
-    var batiment3 = Object.create(Batiment);
-    batiment3.lvl = 1;
-    batiment3.name = "mine d''or";
-    batiment3.value = 15;
-    batiment3.prix = 0;
-    batiment3.type = 'batiment';
-    batiment3.imageName = 'mine_d_or.jpg';
-    batiment3.idRessource = 1;
-    Crud.insert(batiment3);
 
-    batiment3.lvl = 2;
-    batiment3.value = 25;
-    batiment3.prix = 10;
-    Crud.insert(batiment3);
+    var counter = 1;
+    do {
+        var batiment2 = Object.create(Batiment);
+        batiment2.lvl = 1 * counter;
+        batiment2.name = "or";
+        batiment2.value = 7 * counter * 1.2;
+        batiment2.prix = 5 * counter * 1.5;
+        batiment2.type = 'ressource';
+        batiment2.imageName = 'or.jpg';
+        batiment2.idRessource = 1;
+        Crud.insert(batiment2);
+        counter++;
+    } while (counter != 10);
 
-    batiment3.lvl = 3;
-    batiment3.value = 50;
-    batiment3.prix = 25;
-    Crud.insert(batiment3);
-
-    //----------------
-
-    var batiment2 = Object.create(Batiment);
-    batiment2.lvl = 1;
-    batiment2.name = "or";
-    batiment2.value = 7;
-    batiment2.prix = 0;
-    batiment2.type = 'ressource';
-    batiment2.imageName = 'or.jpg';
-    batiment2.idRessource = 1;
-    Crud.insert(batiment2);
-
-    batiment2.lvl = 2;
-    batiment2.value = 15;
-    batiment2.prix = 10;
-    Crud.insert(batiment2);
-
-    batiment2.lvl = 3;
-    batiment2.value = 25;
-    batiment2.prix = 20;
-    Crud.insert(batiment2);
 
     //------------------------------------------------------------
 
-    var batiment = Object.create(Batiment);
-    batiment.lvl = 1;
-    batiment.name = 'entrepot';
-    batiment.value = 15;
-    batiment.prix = 0;
-    batiment.type = 'batiment';
-    batiment.imageName = 'entrepot.jpg';
-    batiment.idRessource = 2;
-    Crud.insert(batiment);
-
-    batiment.lvl = 2;
-    batiment.value = 25;
-    batiment.prix = 18;
-    Crud.insert(batiment);
-
-    batiment.lvl = 3;
-    batiment.value = 50;
-    batiment.prix = 25;
-    Crud.insert(batiment);
+    var counter = 1;
+    do {
+        var batiment = Object.create(Batiment);
+        batiment.lvl = 1 * counter;
+        batiment.name = 'entrepot';
+        batiment.value = 15 * counter;
+        batiment.prix = 5 * counter * 1.5;
+        batiment.type = 'batiment';
+        batiment.imageName = 'entrepot.jpg';
+        batiment.idRessource = 2;
+        Crud.insert(batiment);
+        counter++;
+    } while (counter != 10);
 
     //----------------
 
-    var batiment2 = Object.create(Batiment);
-    batiment2.lvl = 1;
-    batiment2.name = 'champ de ble';
-    batiment2.value = 5;
-    batiment2.prix = 0;
-    batiment2.type = 'ressource';
-    batiment2.imageName = 'ble.jpg';
-    batiment2.idRessource = 2;
-    Crud.insert(batiment2);
-
-    batiment2.lvl = 2;
-    batiment2.value = 10;
-    batiment2.prix = 15;
-    Crud.insert(batiment2);
-
-    batiment2.lvl = 3;
-    batiment2.value = 15;
-    batiment2.prix = 15;
-    Crud.insert(batiment2);
+    var counter = 1;
+    do {
+        var batiment2 = Object.create(Batiment);
+        batiment2.lvl = 1 * counter;
+        batiment2.name = 'champ de ble';
+        batiment2.value = 5 * counter * 1.2;
+        batiment2.prix = 5 * counter * 1.5;
+        batiment2.type = 'ressource';
+        batiment2.imageName = 'ble.jpg';
+        batiment2.idRessource = 2;
+        Crud.insert(batiment2);
+        counter++;
+    } while (counter != 10);
 
     //----------------------------
 
-    var batiment3 = Object.create(Batiment);
-    batiment3.lvl = 1;
-    batiment3.name = 'Maison';
-    batiment3.value = 5;
-    batiment3.prix = 0;
-    batiment3.type = 'habitation';
-    batiment3.imageName = 'maison.jpg';
-    Crud.insert(batiment3);
-
-    batiment3.lvl = 2;
-    batiment3.value = 10;
-    batiment3.prix = 15;
-    Crud.insert(batiment3);
-
-    batiment3.lvl = 3;
-    batiment3.value = 15;
-    batiment3.prix = 15;
-    Crud.insert(batiment3);
+    var counter = 1;
+    do {
+        var batiment3 = Object.create(Batiment);
+        batiment3.lvl = 1 * counter;
+        batiment3.name = 'Maison';
+        batiment3.value = 5 * counter;
+        batiment3.prix = 5 * counter * 1.5;
+        batiment3.type = 'habitation';
+        batiment3.imageName = 'maison.jpg';
+        Crud.insert(batiment3);
+        counter++;
+    } while (counter != 10);
 
     //----------------------------
 

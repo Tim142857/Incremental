@@ -86,6 +86,9 @@
     padding: 50px 20px 20px 25px;
     font-weight: bold;
     text-align: center;
+}
 
+.titre-description {
+    margin-top: 0;
 }
 

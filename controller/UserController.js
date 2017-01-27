@@ -31,17 +31,20 @@ var UserController = {
             array.push(player);
             //chargement village
             Crud.findOneById(Village, player.id, function (village) {
-                array.push(village);
-                Crud.findOneById(Population, village.id, function (population) {
-                    array.push(population);
-                    Crud.findBy(Slot, {idVillage: village.id}, function (slots) {
-                        array.push(slots);
-                        Crud.findBy(Reserve, {idVillage: village.id}, function (reserves) {
-                            array.push(reserves);
-                            callback(array);
+                ReserveController.updateStock(village.id, function () {
+                    console.log('ici');
+                    array.push(village);
+                    Crud.findOneById(Population, village.id, function (population) {
+                        array.push(population);
+                        Crud.findBy(Slot, {idVillage: village.id}, function (slots) {
+                            array.push(slots);
+                            Crud.findBy(Reserve, {idVillage: village.id}, function (reserves) {
+                                array.push(reserves);
+                                callback(array);
+                            });
                         });
                     });
-                });
+                })
             });
         });
     },

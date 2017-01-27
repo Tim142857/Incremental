@@ -8,14 +8,9 @@ var Population = {
     disponible: null,
     evolution: null,
 
-    //Contructeur
-    population: function construct(max, actual, evolution, idVillage) {
-        this.max = max;
-        this.actual = actual;
-        this.evolution = evolution;
-        this.idVillage = idVillage;
+//Contructeur
+    Population: function construct() {
     },
-
 
     //fonctions
     getClassName: function getClassName() {

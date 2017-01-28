@@ -22,6 +22,16 @@ var globalSocket = null;
 
 
 io.sockets.on('connection', function (socket) {
+    // insertData(function () {
+    //     console.log('idRessourceOr: ' + idRessourceOr);
+    //     console.log('idOr1: ' + idOr1);
+    //     console.log('idStockOr1: ' + idStockOr1);
+    //     console.log('idRessourceNourriture: ' + idRessourceNourriture);
+    //     console.log('idNourriture1: ' + idNourriture1);
+    //     console.log('idStockNourriture1: ' + idStockNourriture1);
+    //     console.log('idHabitation1: ' + idHabitation1);
+    // });
+    // testInsert2();
     // insertData(testInsert);
     //J'enregistre la nouvelle connexion dans mes clients
     clients[socket.id] = socket;
@@ -44,7 +54,6 @@ io.sockets.on('connection', function (socket) {
             // console.log(array);
             socket.emit("loaded_user", array);
         });
-
     });
 
 });
@@ -141,98 +150,134 @@ function testInsert() {
 }
 
 function insertData(callback) {
+    console.log("insertion du jeu de données");
+    var maxData = 20;
 
     var ressource = Object.create(Ressource);
     ressource.name = 'or';
-    Crud.insert(ressource);
+    Crud.insert(ressource, function (id) {
+        idRessourceOr = id;
+    });
 
     var ressource = Object.create(Ressource);
     ressource.name = 'nourriture';
-    Crud.insert(ressource);
+    Crud.insert(ressource, function (id) {
+        idRessourceNourriture = id;
+    });
+
 
     //-----------------------------------------------------------------
 
     var counter = 1;
+    var idStockOrOK = false;
     do {
         var batiment3 = Object.create(Batiment);
         batiment3.lvl = 1 * counter;
         batiment3.name = "mine d''or";
-        batiment3.value = 15 * counter;
-        batiment3.prix = 5 * counter * 1.5;
+        batiment3.value = 20 * counter;
+        batiment3.prix = 5 * counter * 2;
         batiment3.type = 'batiment';
         batiment3.imageName = 'mine_d_or.jpg';
         batiment3.idRessource = 1;
-        Crud.insert(batiment3);
+        Crud.insert(batiment3, function (id) {
+            if (idStockOrOK == false) {
+                idStockOr1 = id;
+                idStockOrOK = true;
+            }
+        });
         counter++;
-    } while (counter != 10);
+    } while (counter != maxData);
 
 
     var counter = 1;
+    var idOrOK = false;
     do {
         var batiment2 = Object.create(Batiment);
         batiment2.lvl = 1 * counter;
         batiment2.name = "or";
-        batiment2.value = 7 * counter * 1.2;
+        batiment2.value = 15 * counter * 1.2;
         batiment2.prix = 5 * counter * 1.5;
         batiment2.type = 'ressource';
         batiment2.imageName = 'or.jpg';
         batiment2.idRessource = 1;
-        Crud.insert(batiment2);
+        Crud.insert(batiment2, function (id) {
+            if (idOrOK == false) {
+                idOr1 = id;
+                idOrOK = true;
+            }
+        });
         counter++;
-    } while (counter != 10);
+    } while (counter != maxData);
 
 
     //------------------------------------------------------------
 
     var counter = 1;
+    var idStockNourritureOK = false;
     do {
         var batiment = Object.create(Batiment);
         batiment.lvl = 1 * counter;
         batiment.name = 'entrepot';
         batiment.value = 15 * counter;
-        batiment.prix = 5 * counter * 1.5;
+        batiment.prix = 5 * counter * 2;
         batiment.type = 'batiment';
         batiment.imageName = 'entrepot.jpg';
         batiment.idRessource = 2;
-        Crud.insert(batiment);
+        Crud.insert(batiment, function (id) {
+            if (idStockNourritureOK == false) {
+                idStockNourriture1 = id;
+                idStockNourritureOK = true;
+            }
+        });
         counter++;
-    } while (counter != 10);
+    } while (counter != maxData);
 
     //----------------
 
     var counter = 1;
+    var idNourritureOK = false;
     do {
         var batiment2 = Object.create(Batiment);
         batiment2.lvl = 1 * counter;
         batiment2.name = 'champ de ble';
-        batiment2.value = 5 * counter * 1.2;
+        batiment2.value = 8 * counter * 1.2;
         batiment2.prix = 5 * counter * 1.5;
         batiment2.type = 'ressource';
         batiment2.imageName = 'ble.jpg';
         batiment2.idRessource = 2;
-        Crud.insert(batiment2);
+        Crud.insert(batiment2, function (id) {
+            if (idNourritureOK == false) {
+                idNourriture1 = id;
+                idNourritureOK = true;
+            }
+        });
         counter++;
-    } while (counter != 10);
+    } while (counter != maxData);
 
     //----------------------------
 
     var counter = 1;
+    var idHabitationOK = false;
     do {
         var batiment3 = Object.create(Batiment);
         batiment3.lvl = 1 * counter;
         batiment3.name = 'Maison';
-        batiment3.value = 5 * counter;
+        batiment3.value = 10 * counter;
         batiment3.prix = 5 * counter * 1.5;
         batiment3.type = 'habitation';
         batiment3.imageName = 'maison.jpg';
-        Crud.insert(batiment3);
+        Crud.insert(batiment3, function (id) {
+            if (idHabitationOK == false) {
+                idHabitation1 = id;
+                idHabitationOK = true;
+            }
+        });
         counter++;
-    } while (counter != 10);
+    } while (counter != maxData);
 
     //----------------------------
 
-
-    callback();
+    setTimeout(callback, maxData * 100);
 }
 
 function dateDiff(date1, date2) {
@@ -252,6 +297,18 @@ function dateDiff(date1, date2) {
     diff.day = tmp;
 
     return diff / 1000;
+}
+
+function testInsert2() {
+    var batiment3 = Object.create(Batiment);
+    batiment3.lvl = 100;
+    batiment3.name = "mine d''orrrrr";
+    batiment3.value = 15;
+    batiment3.prix = 5;
+    batiment3.type = 'batiment';
+    batiment3.imageName = 'mine_d_or.jpg';
+    batiment3.idRessource = 1;
+    Crud.insert(batiment3);
 }
 
 //

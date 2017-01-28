@@ -42,31 +42,6 @@ var CustomRepository = {
                             });
                         }
                     });
-                    // for (var key in results) {
-                    //     if (results[key].type != 'batiment') {
-                    //
-                    //         console.log(toTimestamp(new Date()));
-                    //         console.log(toTimestamp(results[key].lastUpdate));
-                    //         var tmpEcoule = toTimestamp(new Date()) - toTimestamp(results[key].lastUpdate);
-                    //         var ressourcesProduites = Math.round(results[key].employes * results[key].value * tmpEcoule / 3600);
-                    //         var newStock = results[key].stock + ressourcesProduites;
-                    //         var maxStock = results[key - 1].value;
-                    //         if (newStock > maxStock) {
-                    //             newStock = maxStock;
-                    //         }
-                    //         console.log(ressourcesProduites);
-                    //         var r = Object.create(Reserve);
-                    //         r.id = results[key].id;
-                    //         r.idVillage = results[key].idVillage;
-                    //         r.idRessource = results[key].idRessource;
-                    //         r.stock = newStock;
-                    //         // console.log(r);
-                    //         Crud.update(r, function () {
-                    //         });
-                    //     }
-                    // }
-
-                    console.log('stock a jour');
                     callback();
 
                     var myName = arguments.callee.toString();

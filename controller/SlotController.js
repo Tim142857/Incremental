@@ -55,6 +55,7 @@ var SlotController = {
     },
 
     ugradeBatiment: function ugradeBatiment(req, res, callback) {
+        try{
         var idSlot = req.params.idSlot;
         Crud.findOneById(Slot, idSlot, function (slot) {
             SlotController.getBatimentOnSlot(idSlot, function (batiment) {
@@ -82,7 +83,6 @@ var SlotController = {
                                                 pop.actual = pop.max;
                                                 pop.disponible += popSupp;
                                                 Crud.update(pop, function () {
-                                                    console.log('pop à jour');
                                                 });
                                             });
                                         }
@@ -93,7 +93,11 @@ var SlotController = {
                     });
                 });
             });
-        })
+        });
+
+        }catch(){
+
+        }
 
         //Recuperer le slot
         //recuperer le batiment d'apres

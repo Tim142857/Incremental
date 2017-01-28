@@ -1,7 +1,11 @@
 //------------------------------------  ROUTING -----------------------------------------------------------------------
+eval(fs.readFileSync('../incremental/config/parameters.js') + '');
+
+//------------------------------------  ROUTING -----------------------------------------------------------------------
 eval(fs.readFileSync('../incremental/config/routing.js') + '');
 
 //-------------------------------------- DAL ---------------------------------------------------------------------------
+eval(fs.readFileSync('./dal/insertData.js') + '');
 eval(fs.readFileSync('./dal/ConnexionBase.js') + '');
 eval(fs.readFileSync('./dal/Crud.js') + '');
 eval(fs.readFileSync('./dal/CustomRepository.js') + '');

@@ -23,7 +23,7 @@ app.get('/test', function (req, res) {
 
 
 //-------------------------------------------    USER    ---------------------------------------------------------------
-app.get('/login.html', function (req, res) {
+app.get('/login', function (req, res) {
     UserController.login(req, res);
 });
 
@@ -31,6 +31,9 @@ app.get('/logout', function (req, res) {
     UserController.logout(req, res);
 });
 
+app.get('/register', function (req, res) {
+    UserController.register(req, res);
+});
 
 //--------------------------------------------   AJAX    ---------------------------------------------------------------
 app.get("/getBatiment/:idBatiment", function (req, res) {

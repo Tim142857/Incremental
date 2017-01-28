@@ -16,7 +16,7 @@ $(document).ready(function () {
     //------------------------------------------    Socket    ----------------------------------------------------------
 
     //Connexon a socket.io
-    var socket = io.connect('http://localhost:8080');
+    var socket = io.connect();
 
     var idPlayer = readCookie('idPlayer');
 

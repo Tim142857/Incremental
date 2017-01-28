@@ -31,7 +31,7 @@
                     <h4 class="modal-title" id="myModalLabel">Connexion</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="formLogin" action="/login.html" method="GET">
+                    <form id="formLogin" action="/login" method="GET">
                         <div class="form-group">
                             <label for="pseudo">Pseudo</label>
                             <input type="text" class="form-control" id="pseudo" name="pseudo">
@@ -60,21 +60,20 @@
                     <h4 class="modal-title" id="myModalLabel">Inscription</h4>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="formRegister" action="/register" method="GET">
                         <div class="form-group">
                             <label for="pseudo">Pseudo</label>
-                            <input type="text" class="form-control" id="pseudo">
+                            <input type="text" class="form-control" id="pseudo" name="pseudo">
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password">
+                            <input type="password" class="form-control" id="password" name="password">
                         </div>
                         </fieldset>
-
+                        <button type="submit" for="formRegister" class="btn btn-primary">S'enregistrer</button>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">S'enregistrer</button>
                 </div>
             </div>
         </div>
@@ -86,7 +85,7 @@
 <script src="public/js/bootstrap.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var socket = io.connect('http://localhost:8080');
+    var socket = io.connect();
     socket.on('login_fail', function () {
         alert("échec d'authentification");
     });

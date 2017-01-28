@@ -1,7 +1,8 @@
 var Crud = {
 
     //----------------------------------FONCTION INSERT-----------------------------------------------------------------
-    insert: function (object) {
+    insert: function (object, fn) {
+        var insertId = null;
         var className = null;
         var listProperties = '';
         var listValues = '';
@@ -43,6 +44,10 @@ var Crud = {
                         console.log('-------------------------------');
                     }
                     else {
+                        insertId = results.insertId;
+                        if (typeof(fn) != 'undefined') {
+                            fn(insertId);
+                        }
                         var myName = arguments.callee.toString();
                         myName = myName.substr('function '.length);
                         myName = myName.substr(0, myName.indexOf('('));
@@ -50,6 +55,8 @@ var Crud = {
                     }
                 })
         }
+
+
     },
 
 
